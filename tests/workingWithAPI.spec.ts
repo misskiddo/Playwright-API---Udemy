@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
       body: JSON.stringify(tags),
     });
   });
-  await page.goto("https://angular.realworld.how/");
+  await page.goto("/");
 });
 
 test("Intercept response", async ({ page }) => {

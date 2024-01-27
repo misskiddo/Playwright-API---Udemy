@@ -24,7 +24,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'https://angular.realworld.how/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -38,48 +38,24 @@ export default defineConfig({
       testMatch: "auth.setup.ts",
     },
     {
-      name: "chromium",
+      name: "regression",
       use: { ...devices["Desktop Chrome"], storageState: ".auth/user.json" },
       dependencies: ['setup']
-    },
-
+    },  
     {
-      name: "firefox",
+      name: 'articleCleanUp',
+      testMatch: 'articleCleanUp.setup.ts'
+    },
+    {
+      name: "articleSetup",
+      testMatch: 'newArticle.setup.ts',
+      dependencies: ['setup'],
+      teardown: 'articleCleanUp'
+    },
+    {
+      name: "likeCounter",
+      testMatch: 'likesCounter.spec.ts',
       use: { ...devices["Desktop Firefox"], storageState: ".auth/user.json" },
-      dependencies: ['setup']
-    },
-
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"], storageState: ".auth/user.json" },
-      dependencies: ['setup']
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+      dependencies: ['articleSetup']
+    }   ] 
 });
